@@ -82,8 +82,8 @@ See [PUBLISHING.md](PUBLISHING.md#google-drive).
 | Variable | Default | Description |
 |---|---|---|
 | `RCLONE_PATH` | `rclone` | Path to the rclone binary. |
-| `DRIVE_REMOTE` | `drive` | Name of your configured rclone remote. |
-| `DRIVE_FOLDER` | `ContentCreator` | Destination folder inside that Drive. |
+| `DRIVE_REMOTE` | `drive` | Name of your configured rclone remote. rclone stores remotes in your machine-global `~/.config/rclone/rclone.conf`, not in this project — so if a remote named `drive` already exists, the app shows "connected". Point this at your own remote, or a non-existent name to keep Drive off. |
+| `DRIVE_FOLDER` | `SocialMediaContentCreator` | Destination folder inside that Drive. |
 | `DRIVE_AUTO` | `0` | `1` = upload the mp4 automatically after each render. |
 
 ## Social publishing

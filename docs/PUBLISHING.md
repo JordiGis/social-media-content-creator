@@ -87,7 +87,7 @@ Point the app at it in `.env`:
 
 ```ini
 DRIVE_REMOTE=drive              # the rclone remote name you chose
-DRIVE_FOLDER=ContentCreator     # destination folder inside that Drive
+DRIVE_FOLDER=SocialMediaContentCreator   # destination folder inside that Drive
 DRIVE_AUTO=0                    # 1 = upload automatically after every render
 ```
 
