@@ -1,5 +1,8 @@
-import { useEffect, useState } from 'react';
-import { Mail, Plug, Save, CheckCircle2, CloudUpload, RefreshCw, AlertCircle } from 'lucide-react';
+import { useEffect, useRef, useState } from 'react';
+import {
+  Mail, Plug, Save, CheckCircle2, CloudUpload, RefreshCw, AlertCircle,
+  Send, Mic, Upload, Trash2, Star,
+} from 'lucide-react';
 import { api } from '../api';
 import { useDialog } from './Dialog.jsx';
 
@@ -50,6 +53,151 @@ function DriveSection() {
             Copiar «{cmd}»
           </button>
         </div>
+      )}
+    </section>
+  );
+}
+
+// Sección de voz del narrador: sube un .wav para CLONAR tu voz (va a
+// assets/voces_referencia), lista las que hay y permite elegir la voz global por
+// defecto (defaults.voz). También se puede usar una voz de catálogo (alba, lola…)
+// sin subir nada, escribiéndola en los ajustes globales del guion.
+function VoiceSection() {
+  const { alert, confirm } = useDialog();
+  const fileRef = useRef(null);
+  const [voces, setVoces] = useState(null);
+  const [defVoz, setDefVoz] = useState('');
+  const [busy, setBusy] = useState(false);
+
+  async function load() {
+    const [a, d] = await Promise.all([
+      api.assets().catch(() => ({ voces: [] })),
+      api.getDefaults().catch(() => ({})),
+    ]);
+    setVoces(a.voces || []);
+    setDefVoz(d.voz || '');
+  }
+  useEffect(() => { load(); }, []);
+  if (!voces) return null;
+
+  async function onUpload(e) {
+    const file = e.target.files?.[0];
+    e.target.value = ''; // permite volver a subir el mismo archivo
+    if (!file) return;
+    setBusy(true);
+    try {
+      const { name } = await api.uploadAsset('voces', file, file.name);
+      await load();
+      alert({ title: 'Voz subida', message: `«${name}» lista para clonar. Márcala como voz global o ponla en un guion.` });
+    } catch (err) {
+      alert({ title: 'No se pudo subir', message: err.message, tone: 'danger' });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function setDefault(name) {
+    setBusy(true);
+    try {
+      const cur = await api.getDefaults().catch(() => ({}));
+      const next = await api.saveDefaults({ ...cur, voz: name });
+      setDefVoz(next.voz || name);
+    } catch (err) {
+      alert({ title: 'No se pudo guardar', message: err.message, tone: 'danger' });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function remove(name) {
+    const ok = await confirm({
+      title: 'Borrar voz',
+      message: `¿Borrar «${name}» de assets/voces_referencia?`,
+      tone: 'danger',
+    });
+    if (!ok) return;
+    setBusy(true);
+    try {
+      await api.deleteAsset('voces', name);
+      await load();
+    } catch (err) {
+      alert({ title: 'No se pudo borrar', message: err.message, tone: 'danger' });
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  return (
+    <section className="lib-defaults" style={{ marginTop: 28 }}>
+      <h2 className="lib-subtitle">
+        <Mic size={16} style={{ verticalAlign: '-2px', marginRight: 6 }} />
+        Voz del narrador (clonación)
+      </h2>
+      <p className="muted small">
+        Sube un <strong>.wav</strong> de ~20 s con tu voz (limpia, sin ruido) para{' '}
+        <strong>clonarla</strong>. Se guarda en <code>assets/voces_referencia/</code>. Clonar usa el
+        modelo <em>gated</em> de Pocket TTS: una vez, acepta los términos en{' '}
+        <a href="https://huggingface.co/kyutai/pocket-tts" target="_blank" rel="noreferrer">huggingface.co/kyutai/pocket-tts</a>{' '}
+        y autentícate (<code>.venv/bin/hf auth login</code> o <code>HF_TOKEN</code> en <code>.env</code>).
+        También puedes usar una <strong>voz de catálogo</strong> (alba, lola, giovanni…) sin subir nada.
+      </p>
+
+      <div style={{ display: 'flex', gap: 10, margin: '4px 0 16px' }}>
+        <input
+          ref={fileRef}
+          type="file"
+          accept="audio/wav,audio/x-wav,audio/wave,.wav"
+          style={{ display: 'none' }}
+          onChange={onUpload}
+        />
+        <button className="btn btn-primary" disabled={busy} onClick={() => fileRef.current?.click()}>
+          <Upload size={16} /> {busy ? 'Subiendo…' : 'Subir .wav de voz'}
+        </button>
+        <button className="btn" disabled={busy} onClick={load}>
+          <RefreshCw size={14} /> Refrescar
+        </button>
+      </div>
+
+      {voces.length === 0 ? (
+        <p className="muted small">
+          <AlertCircle size={13} style={{ verticalAlign: '-2px', marginRight: 4 }} />
+          Aún no hay voces subidas. Sube un .wav, o usa una voz de catálogo escribiéndola en los
+          ajustes globales del guion.
+        </p>
+      ) : (
+        <ul className="voice-list" style={{ listStyle: 'none', padding: 0, margin: 0, maxWidth: 620 }}>
+          {voces.map((name) => {
+            const isDef = name === defVoz;
+            return (
+              <li
+                key={name}
+                className="voice-row"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 10, padding: '8px 10px',
+                  border: '1px solid var(--border, #dfe4ea)', borderRadius: 8, marginBottom: 8,
+                }}
+              >
+                <Mic size={15} />
+                <span style={{ flex: 1, fontWeight: isDef ? 700 : 400 }}>
+                  {name}
+                  {isDef && (
+                    <span className="dl-estado dl-estado-done" style={{ marginLeft: 8 }}>
+                      <CheckCircle2 size={12} /> voz global
+                    </span>
+                  )}
+                </span>
+                {!isDef && (
+                  <button className="btn" disabled={busy} onClick={() => setDefault(name)} title="Usar como voz global por defecto">
+                    <Star size={14} /> Usar como global
+                  </button>
+                )}
+                <button className="btn" disabled={busy} onClick={() => remove(name)} title="Borrar">
+                  <Trash2 size={14} />
+                </button>
+              </li>
+            );
+          })}
+        </ul>
       )}
     </section>
   );
@@ -144,6 +292,8 @@ export default function Settings() {
       <header className="editor-head">
         <h1 className="lib-title">Configuración</h1>
       </header>
+
+      <VoiceSection />
 
       <section className="lib-defaults">
         <h2 className="lib-subtitle">
