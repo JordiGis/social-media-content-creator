@@ -1,0 +1,47 @@
+{
+  "name": "social-media-content-creator",
+  "version": "1.0.0",
+  "description": "Local, self-hosted app to create vertical 9:16 Reels/Shorts: Notion-style shot-based script editor, local voice cloning (Pocket TTS) and FFmpeg rendering, with optional auto-publish to Instagram & TikTok.",
+  "type": "module",
+  "main": "server.js",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/JordiGis/social-media-content-creator.git"
+  },
+  "scripts": {
+    "dev": "concurrently -n server,web -c green,cyan \"pnpm dev:server\" \"pnpm dev:web\"",
+    "dev:server": "node --watch server.js",
+    "dev:web": "vite",
+    "build": "vite build",
+    "start": "node server.js",
+    "preview": "vite preview",
+    "demo": "node scripts/demo-assets.mjs",
+    "descargar": "node scripts/descargar.mjs",
+    "render": "node scripts/render.mjs",
+    "subir": "node scripts/subir-drive.mjs",
+    "avisar": "node scripts/avisar-video.mjs"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "pnpm@10.28.2",
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "express": "^5.2.1",
+    "gray-matter": "^4.0.3",
+    "imapflow": "^1.4.3",
+    "lucide-react": "^1.21.0",
+    "mailparser": "^3.9.12",
+    "music-metadata": "^11.13.0",
+    "nodemailer": "^9.0.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.2"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "vite": "^5.4.11"
+  }
+}

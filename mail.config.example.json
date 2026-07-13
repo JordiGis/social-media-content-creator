@@ -1,0 +1,9 @@
+{
+  "enabled": false,
+  "host": "imap.your-provider.com",
+  "port": 993,
+  "secure": true,
+  "user": "you@example.com",
+  "password": "USE_AN_APP_PASSWORD_NOT_YOUR_MAIN_ONE",
+  "mailbox": "INBOX"
+}

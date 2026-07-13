@@ -1,0 +1,40 @@
+node_modules/
+.env
+.DS_Store
+
+# Local secrets / credentials (NEVER commit these)
+mail.config.json      # IMAP/SMTP creds in cleartext
+social.config.json    # Instagram / TikTok API tokens
+
+# Python (Pocket TTS)
+.venv/
+__pycache__/
+*.pyc
+
+# Temp audio/clips (regenerated every render)
+temp/*
+!temp/.gitkeep
+
+# Rendered videos and their generated caption .txt
+outputs/*
+!outputs/.gitkeep
+
+# Frontend compiled by Vite (served by Express; regenerate with `pnpm build`)
+public/
+
+# Media assets — keep the folders, ignore their content (bring your own media)
+assets/avatares/*
+!assets/avatares/.gitkeep
+assets/fondos_matrix/*
+!assets/fondos_matrix/.gitkeep
+assets/inputs_top/*
+!assets/inputs_top/.gitkeep
+assets/voces_referencia/*
+!assets/voces_referencia/.gitkeep
+assets/imagenes/*
+!assets/imagenes/.gitkeep
+assets/musica/*
+!assets/musica/.gitkeep
+
+# Download staging (unregistered binaries; the catalog lives in descargas.json)
+assets/_pendientes/

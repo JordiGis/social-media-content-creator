@@ -1,0 +1,9 @@
+{
+  "ig": {
+    "token": "INSTAGRAM_GRAPH_API_LONG_LIVED_TOKEN",
+    "userId": "INSTAGRAM_BUSINESS_ACCOUNT_ID"
+  },
+  "tiktok": {
+    "token": "TIKTOK_OAUTH_ACCESS_TOKEN_WITH_video.upload_SCOPE"
+  }
+}

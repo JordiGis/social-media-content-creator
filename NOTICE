@@ -1,0 +1,35 @@
+Social Media Content Creator
+Copyright (c) 2026 Jordi Gisbert (JordiGis)
+
+This software is licensed under the MIT License. See the LICENSE file for the
+full license text.
+
+-------------------------------------------------------------------------------
+Attribution & responsible-use notice
+-------------------------------------------------------------------------------
+
+This project is a local tool for generating short-form videos. It ships with NO
+media, voices or music — you bring your own. When you use it, you are solely
+responsible for:
+
+  * Holding the rights to any images, video clips, music and voices you add
+    (e.g. Pixabay clips are license-free; most other stock and music are not).
+  * Complying with the terms of every third-party service you connect, including
+    but not limited to Instagram / Meta Graph API, TikTok, Google Drive and
+    Hugging Face (Pocket TTS).
+  * Any content you generate, publish or distribute with this tool.
+
+The voice-cloning feature must only be used with voices you are authorized to
+use. Do not impersonate real people or create misleading content.
+
+The software is provided "AS IS", without warranty of any kind, as stated in the
+MIT License.
+
+-------------------------------------------------------------------------------
+Third-party components
+-------------------------------------------------------------------------------
+
+This project builds on open-source software distributed under their own licenses,
+including (non-exhaustive): Node.js, Express, React, Vite, FFmpeg, librsvg and
+Pocket TTS (kyutai-labs/pocket-tts). Their respective licenses apply to those
+components.

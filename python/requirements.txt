@@ -1,0 +1,4 @@
+# Motor TTS local con clonación de voz zero-shot (CPU, MIT)
+# https://github.com/kyutai-labs/pocket-tts
+# Arrastra sus dependencias (torch, numpy, etc.). En Apple Silicon corre en CPU.
+pocket-tts
