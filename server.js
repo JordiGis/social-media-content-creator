@@ -284,5 +284,5 @@ app.use((err, req, res, next) => {
 });
 
 app.listen(config.port, () => {
-  console.log(`\n  ▶  video-automation-core  ->  http://localhost:${config.port}\n`);
+  console.log(`\n  ▶  Social Media Content Creator  ->  http://localhost:${config.port}\n`);
 });

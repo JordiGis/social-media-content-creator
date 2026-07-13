@@ -67,7 +67,7 @@ export default function Sidebar({ scripts, reloadScripts, onRender }) {
     <aside className="sidebar">
       <Link to="/" className="brand">
         <span className="dot" />
-        <span>Video Automation</span>
+        <span>Content Creator</span>
       </Link>
 
       <button className="btn-new" onClick={create} disabled={busy}>
